@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>gamepad</title>
+    </head>
+  <body>
+    <div id="app">
+      <canvas id="canvas" width=1280 height=720></canvas>
+    </div>
+    <script type="module">
+      import './romfs/main.js';
+      // https://github.com/alvaromontoro/gamepad-simulator
+      import {gamepadSimulator} from './fake-gamepad.js'
+      gamepadSimulator.create()
+      gamepadSimulator.connect()
+    </script>
+  </body>
+</html>
