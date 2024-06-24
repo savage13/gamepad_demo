@@ -29,12 +29,6 @@ function circle(x: number, y: number, r: number, stroke: boolean, fill: boolean 
     ctx.stroke()
 }
 
-const im = new Image()
-im.src = "./background.png"
-im.onload = () => {
-  draw_buttons(0)
-}
-
 const buttons: any = {
   A: { x: 810, y: 250, r: 30, type: 'circle', stroke: true },
   X: { x: 740, y: 178, r: 30, type: 'circle', stroke: true },
@@ -42,14 +36,6 @@ const buttons: any = {
   Y: { x: 670, y: 250, r: 30, type: 'circle', stroke: true },
   StickL: { x: 198, y: 250, r: 120, type: 'circle', stroke: true },
   StickR: { x: 1002, y: 250, r: 120, type: 'circle', stroke: true },
-  StickLUp: { x: 198, y: 250 - 60, r: 65, type: 'circle', stroke: false },
-  StickLDown: { x: 198, y: 250 + 60, r: 65, type: 'circle', stroke: false },
-  StickLLeft: { x: 198 - 60, y: 250, r: 65, type: 'circle', stroke: false },
-  StickLRight: { x: 198 + 60, y: 250, r: 65, type: 'circle', stroke: false },
-  StickRUp: { x: 1002, y: 250 - 60, r: 65, type: 'circle', stroke: false },
-  StickRDown: { x: 1002, y: 250 + 60, r: 65, type: 'circle', stroke: false },
-  StickRLeft: { x: 1002 - 60, y: 250, r: 65, type: 'circle', stroke: false },
-  StickRRight: { x: 1002 + 60, y: 250, r: 65, type: 'circle', stroke: false },
   Minus: { x: 535, y: 78, r: 22, type: 'circle', stroke: true },
   Plus: { x: 665, y: 78, r: 22, type: 'circle', stroke: true },
   L: { x: 30, y: 15, w: 200, h: 80, r: 40, type: "rrect" },
@@ -62,7 +48,13 @@ const buttons: any = {
   Right: { x: 442 + 55, y: 150 + 73, w: 73, h: 55, r: [0, 40, 40, 0], type: "rrect" },
 }
 
-export function draw_buttons(button: HidNpadButton) {
+export function draw_buttons(detail: any) {
+  const button = detail.button || 0
+  const r = 60
+  const lx = (detail.lx || 0) * r
+  const ly = (detail.ly || 0) * r
+  const rx = (detail.rx || 0) * r
+  const ry = (detail.ry || 0) * r
 
   ctx.clearRect(0, 0, 1280, 720)
   ctx.strokeStyle = "black"
@@ -85,5 +77,8 @@ export function draw_buttons(button: HidNpadButton) {
       ctx.stroke()
     }
   }
+
+  circle(198 + lx, 250 + ly, 65, false, true)
+  circle(1002 + rx, 250 + ry, 65, false, true)
 
 }
