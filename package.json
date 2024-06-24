@@ -6,6 +6,7 @@
   "description": "",
   "scripts": {
     "build": "esbuild --bundle --sourcemap --sources-content=false --target=es2022 --format=esm --outdir=romfs src/main.ts --watch",
+    "compile": "npx tsc --noEmit",
     "nro": "nxjs-nro",
     "nsp": "nxjs-nsp"
   },

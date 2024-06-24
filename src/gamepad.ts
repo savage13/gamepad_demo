@@ -27,7 +27,7 @@ export class GamePadState {
     window.requestAnimationFrame(() => { this.input_loop() });
   }
 
-  event(event_name: string, change: HidNpadButton, repeat: boolean, axes: number[]) {
+  event(event_name: string, change: HidNpadButton, repeat: boolean, axes: readonly number[]) {
     window.dispatchEvent(new CustomEvent(event_name, {
       detail: {
         time: this.time, repeat, change, button: this.button,
@@ -40,7 +40,7 @@ export class GamePadState {
     return this.button ^ button // Bits of changed buttons
   }
 
-  handle_change(button: HidNpadButton, change: HidNpadButton, axes: number[]) {
+  handle_change(button: HidNpadButton, change: HidNpadButton, axes: readonly number[]) {
     const down = (change & button) != 0
     this.time = new Date().valueOf()
     this.delta = 0
@@ -53,7 +53,7 @@ export class GamePadState {
     this.event(event_name, change, false, axes)
   }
 
-  handle_hold(change: HidNpadButton, axes: number[]) {
+  handle_hold(change: HidNpadButton, axes: readonly number[]) {
     const t = new Date().valueOf()
     this.delta = t - this.time
     const count = Math.floor(this.delta / this.hold_interval)
@@ -63,7 +63,7 @@ export class GamePadState {
     this.event("gamepad_down", change, true, axes)
   }
 
-  press(button: HidNpadButton, axes: number[]) {
+  press(button: HidNpadButton, axes: readonly number[]) {
     const change = this.change(button)
     if (change)
       this.handle_change(button, change, axes) // Changes to pressed buttons
@@ -90,7 +90,7 @@ export function get_description(key_down: HidNpadButton): string[] {
   return KeyNames.filter(key => key_down & HidNpadButton[key])
 }
 
-function gamepad_to_HidNpadButton(pad) {
+function gamepad_to_HidNpadButton(pad: any) {
   let button = 0
   for (let i = 0; i < pad.buttons.length; i++) {
     if (pad.buttons[i].pressed) {
